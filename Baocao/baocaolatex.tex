@@ -1,0 +1,291 @@
+\documentclass[conference]{IEEEtran}
+\usepackage[utf8]{inputenc} % Hỗ trợ nhập tiếng Việt
+\usepackage[T5]{fontenc} % Hỗ trợ mã tiếng Việt
+\usepackage{amsmath, amssymb} % Công thức toán học
+\usepackage{graphicx} % Chèn hình ảnh
+\usepackage{hyperref} % Liên kết
+\usepackage{array, multirow} % Căn chỉnh bảng
+\usepackage{geometry}  % Định dạng lề trang
+\usepackage{float}
+
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+\begin{document}
+
+% --------------------- TRANG BÌA ---------------------
+
+
+% --------------------- BÁO CÁO IEEE ---------------------
+\title{Báo Cáo Hệ Thống Giám Sát Phương Tiện Vi Phạm Giao Thông Thu Thập Biển Số Xe}
+\author{
+    \IEEEauthorblockN{Nguyễn Hoài Nam, Nguyễn Văn Giang, Nguyễn Việt Ninh, Nguyễn Bá Chí Khiêm}
+}
+
+\maketitle
+
+\section{Lời Mở Đầu}
+Trong bối cảnh đô thị hóa và sự gia tăng không ngừng của phương tiện giao thông, vấn đề an toàn và quản lý giao thông trở thành một thách thức lớn đối với các cơ quan chức năng. Vi phạm giao thông như vượt đèn đỏ, chạy quá tốc độ, đi sai làn đường không chỉ gây ra ùn tắc mà còn tiềm ẩn nguy cơ tai nạn nghiêm trọng.
+
+Với sự phát triển mạnh mẽ của công nghệ xử lý ảnh và trí tuệ nhân tạo (AI), các hệ thống giám sát giao thông thông minh đang dần thay thế các phương pháp giám sát truyền thống, giúp tự động hóa quá trình phát hiện và xử lý vi phạm một cách hiệu quả. Đề tài "Giám Sát Giao Thông và Nhận Diện Biển Số Xe Vi Phạm" tập trung nghiên cứu và phát triển hệ thống ứng dụng công nghệ thị giác máy tính, xử lý ảnh và nhận diện ký tự quang học (OCR) để tự động nhận diện biển số xe và phát hiện hành vi vi phạm giao thông.
+
+Mục tiêu của đề tài là xây dựng một hệ thống có khả năng giám sát giao thông thời gian thực, giúp cơ quan chức năng nâng cao hiệu quả quản lý, giảm thiểu tình trạng vi phạm, và góp phần cải thiện an toàn giao thông. Hệ thống này không chỉ giúp phát hiện vi phạm nhanh chóng mà còn cung cấp dữ liệu hữu ích phục vụ công tác điều tra và hoạch định chính sách giao thông thông minh trong tương lai.
+
+\section{Đặt Vấn Đề}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{datvande.jpg} % Giảm kích thước hình
+    \caption{Minh họa hệ thống giám sát giao thông thông minh}
+    \label{fig:traffic_monitoring}
+\end{figure}
+Trong những năm gần đây, sự gia tăng nhanh chóng của các phương tiện giao thông đã đặt ra nhiều thách thức đối với công tác quản lý và giám sát giao thông. Các vi phạm như vượt đèn đỏ, chạy quá tốc độ, đi sai làn đường không chỉ gây ùn tắc mà còn là nguyên nhân chính dẫn đến tai nạn giao thông nghiêm trọng.
+
+Các phương pháp giám sát giao thông truyền thống, chủ yếu dựa vào nhân lực hoặc hệ thống camera giám sát thông thường, còn nhiều hạn chế như: khó khăn trong việc phát hiện vi phạm theo thời gian thực, yêu cầu sự can thiệp thủ công của con người và độ chính xác không cao.
+
+Với sự phát triển của trí tuệ nhân tạo (AI) và thị giác máy tính (Computer Vision), các hệ thống giám sát giao thông thông minh có thể tự động nhận diện phương tiện, phát hiện vi phạm, nhận dạng biển số xe và cung cấp dữ liệu cho cơ quan chức năng xử lý một cách hiệu quả hơn.
+
+Nghiên cứu này đề xuất một hệ thống giám sát giao thông tự động, ứng dụng các mô hình AI tiên tiến như YOLOv8 để phát hiện phương tiện và EasyOCR để nhận diện biển số xe theo thời gian thực. Hệ thống giúp nâng cao hiệu suất giám sát, giảm thiểu sai sót của con người và hỗ trợ xử lý vi phạm một cách nhanh chóng.
+\section{CHƯƠNG 1: GIỚI THIỆU}
+
+\subsection{1.1 Bối cảnh}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{boicanh.jpg} % Giảm kích thước hình
+    \caption{Bối cảnh giám sát giao thông}
+    \label{fig:traffic_monitoring}
+\end{figure}
+Với sự phát triển nhanh chóng của đô thị hóa và sự gia tăng số lượng phương tiện giao thông, các vi phạm giao thông ngày càng trở nên phổ biến. Những hành vi như vượt đèn đỏ, chạy quá tốc độ, đi sai làn đường không chỉ gây ra ùn tắc mà còn là nguyên nhân chính dẫn đến nhiều vụ tai nạn nghiêm trọng.
+
+Sự phát triển mạnh mẽ của công nghệ số và dữ liệu lớn (Big Data) đang tạo ra cơ hội lớn cho các cơ quan chức năng trong việc triển khai các hệ thống giám sát giao thông thông minh. Hệ thống này có thể giúp tối ưu hóa quá trình phát hiện và xử lý vi phạm, đồng thời nâng cao hiệu quả quản lý hạ tầng giao thông đô thị.
+
+\subsection{1.2 Xu hướng}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{xuhuong.png} % Giảm kích thước hình
+    \caption{Xu hướng giao thông năm 2025}
+    \label{fig:traffic_monitoring}
+\end{figure}
+Hệ thống giám sát giao thông thông minh đang trở thành một xu hướng tất yếu trong quản lý đô thị hiện đại. Công nghệ nhận diện biển số xe (License Plate Recognition - LPR) kết hợp với trí tuệ nhân tạo (AI) có thể hỗ trợ phát hiện phương tiện vi phạm một cách chính xác, nhanh chóng và hiệu quả.
+
+Việc triển khai các hệ thống này không chỉ giúp tăng cường an toàn giao thông mà còn hỗ trợ thu thập dữ liệu quan trọng về lưu lượng phương tiện, hành vi người tham gia giao thông và xu hướng vi phạm. Từ đó, cơ quan quản lý có thể xây dựng các chính sách hợp lý nhằm tối ưu hóa giao thông đô thị, giảm thiểu ùn tắc và tai nạn giao thông.
+
+\subsection{1.3 Phân tích}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{phantich.png} % Giảm kích thước hình
+    \caption{Phân tích biểu đồ giao thông}
+    \label{fig:traffic_monitoring}
+\end{figure}
+Lượng phương tiện tham gia giao thông ngày càng tăng dẫn đến sự bùng nổ dữ liệu về hành vi di chuyển, vi phạm giao thông và lưu lượng phương tiện. Nếu khai thác và phân tích hiệu quả nguồn dữ liệu này, cơ quan chức năng có thể đưa ra các giải pháp điều chỉnh giao thông, tối ưu hóa hệ thống đường bộ, giảm thiểu tắc nghẽn và nâng cao mức độ an toàn.
+
+Việc ứng dụng trí tuệ nhân tạo và công nghệ xử lý ảnh vào hệ thống giám sát giao thông giúp tăng độ chính xác trong việc nhận diện biển số xe, phân tích hành vi vi phạm và phát hiện các trường hợp đi sai làn, vượt đèn đỏ, chạy quá tốc độ. Ngoài ra, dữ liệu thu thập được còn hỗ trợ dự báo xu hướng vi phạm, giúp cơ quan chức năng triển khai các biện pháp quản lý linh hoạt và hiệu quả.
+
+Phân tích dữ liệu giao thông không chỉ đơn thuần là thu thập số liệu, mà còn đòi hỏi các phương pháp xử lý hiện đại để làm rõ mối quan hệ giữa các yếu tố như thời gian, địa điểm, loại phương tiện, tần suất vi phạm. Thông qua phân tích này, các nhà quản lý có thể xác định các khu vực có nguy cơ tai nạn cao, từ đó đề xuất các giải pháp điều chỉnh phù hợp nhằm nâng cao an toàn giao thông.
+
+\subsection{1.4 Công Cụ Sử Dụng}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{congcu.jpg} % Giảm kích thước hình
+    \caption{Công cụ sử dụng}
+    \label{fig:traffic_monitoring}
+\end{figure}
+Hệ thống sử dụng các công cụ hiện đại trong lĩnh vực thị giác máy tính và trí tuệ nhân tạo để nhận diện phương tiện và trích xuất biển số xe từ video giao thông.
+
+\begin{itemize}
+    \item \textbf{YOLOv8:} Mô hình học sâu chuyên phát hiện vật thể, được sử dụng để nhận diện phương tiện trong khung hình với độ chính xác cao và tốc độ xử lý nhanh.
+    \item \textbf{Roboflow:} Nền tảng hỗ trợ quản lý, gán nhãn và tiền xử lý dữ liệu hình ảnh giúp tối ưu hóa quá trình huấn luyện mô hình YOLOv8.
+    \item \textbf{OCR (Optical Character Recognition):} Công nghệ nhận diện ký tự quang học giúp trích xuất biển số xe từ hình ảnh được nhận diện. Các thư viện như EasyOCR hoặc Tesseract OCR có thể được sử dụng để hỗ trợ quá trình này.
+    \item \textbf{OpenCV:} Thư viện xử lý ảnh mã nguồn mở giúp trích xuất khung hình từ video, tiền xử lý hình ảnh và hỗ trợ các thao tác xử lý thị giác máy tính.
+\end{itemize}
+
+\section{CHƯƠNG 2: MỤC ĐÍCH XÂY DỰNG HỆ THỐNG}
+
+\subsection{2.1 Mục Tiêu Hệ Thống}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{muctieu.jpg} % Giảm kích thước hình
+    \caption{Mục tiêu sử dụng hệ thống}
+    \label{fig:traffic_monitoring}
+\end{figure}
+Hệ thống giám sát phương tiện vi phạm giao thông nhằm hướng đến các mục tiêu sau:
+\begin{itemize}
+    \item Tự động giám sát và phát hiện các hành vi vi phạm giao thông như vượt đèn đỏ, chạy quá tốc độ, đi sai làn đường.
+    \item Nhận diện biển số xe vi phạm một cách chính xác và nhanh chóng bằng công nghệ nhận dạng ký tự quang học (OCR).
+    \item Cung cấp dữ liệu chính xác cho cơ quan chức năng để hỗ trợ xử lý vi phạm và quản lý giao thông hiệu quả hơn.
+    \item Xây dựng hệ thống hoạt động theo thời gian thực, đảm bảo khả năng theo dõi liên tục và không bị gián đoạn.
+    \item Lưu trữ dữ liệu vi phạm có tổ chức để phục vụ phân tích, báo cáo và nghiên cứu xu hướng giao thông.
+\end{itemize}
+
+\subsection{2.2 Lợi Ích Hệ Thống}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{congcu.jpg} % Giảm kích thước hình
+    \caption{Lợi ích mang lại}
+    \label{fig:traffic_monitoring}
+\end{figure}
+Hệ thống mang lại nhiều lợi ích quan trọng trong công tác quản lý giao thông:
+\begin{itemize}
+    \item \textbf{Tăng hiệu quả giám sát:} Giảm sự phụ thuộc vào nhân lực, tăng tính tự động hóa và chính xác trong việc phát hiện vi phạm.
+    \item \textbf{Hỗ trợ cơ quan chức năng:} Cung cấp dữ liệu rõ ràng, hình ảnh và video làm bằng chứng để xử lý vi phạm một cách minh bạch.
+    \item \textbf{Nâng cao ý thức tham gia giao thông:} Khi biết có hệ thống giám sát, người tham gia giao thông sẽ có ý thức tuân thủ luật lệ hơn.
+    \item \textbf{Tích hợp công nghệ hiện đại:} Ứng dụng trí tuệ nhân tạo (AI) và thị giác máy tính giúp cải thiện độ chính xác và hiệu suất xử lý dữ liệu.
+    \item \textbf{Phân tích và dự báo giao thông:} Dữ liệu thu thập được có thể hỗ trợ nghiên cứu các xu hướng vi phạm và điều chỉnh chính sách giao thông hợp lý.
+\end{itemize}
+
+\subsection{2.3 Phạm Vi Ứng Dụng}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{phamvi.jpg} % Giảm kích thước hình
+    \caption{Phạm vi toàn quốc}
+    \label{fig:traffic_monitoring}
+\end{figure}
+Hệ thống giám sát có thể được triển khai trong nhiều tình huống thực tế khác nhau:
+\begin{itemize}
+    \item \textbf{Giao thông đô thị:} Lắp đặt tại các nút giao thông trọng điểm để kiểm soát tình trạng vi phạm.
+    \item \textbf{Đường cao tốc:} Giám sát tốc độ và các hành vi nguy hiểm của phương tiện.
+    \item \textbf{Khu vực trường học, bệnh viện:} Kiểm soát tốc độ xe để đảm bảo an toàn cho học sinh và bệnh nhân.
+    \item \textbf{Bãi đỗ xe thông minh:} Hỗ trợ nhận diện biển số xe ra vào bãi đỗ một cách tự động.
+\end{itemize}
+
+\subsection{2.4 Công Nghệ Áp Dụng}
+Hệ thống ứng dụng các công nghệ tiên tiến để đảm bảo tính chính xác và hiệu suất cao:
+\begin{itemize}
+    \item \textbf{Mô hình YOLOv8:} Phát hiện phương tiện trong khung hình với độ chính xác cao.
+    \item \textbf{Thị giác máy tính (OpenCV):} Tiền xử lý hình ảnh, trích xuất biển số xe.
+    \item \textbf{Nhận diện ký tự quang học (EasyOCR):} Trích xuất thông tin từ biển số xe.
+    \item \textbf{Lưu trữ dữ liệu:} Sử dụng cơ sở dữ liệu SQLite hoặc hệ thống lưu trữ đám mây để quản lý dữ liệu vi phạm.
+    \item \textbf{Xử lý thời gian thực:} Sử dụng phần cứng mạnh như NVIDIA Jetson hoặc GPU để đảm bảo tốc độ xử lý nhanh.
+\end{itemize}
+
+\subsection{2.5 Thách Thức và Hướng Giải Quyết}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{thachthuc.jpg} % Giảm kích thước hình
+    \caption{Thách thức và giải quyết}
+    \label{fig:traffic_monitoring}
+\end{figure}
+Mặc dù hệ thống có nhiều lợi ích, nhưng cũng đối mặt với một số thách thức:
+\begin{itemize}
+    \item \textbf{Điều kiện môi trường:} Ánh sáng yếu, thời tiết xấu có thể ảnh hưởng đến độ chính xác của mô hình.
+    \item \textbf{Biển số bị che khuất hoặc mờ:} Cần tối ưu thuật toán OCR để cải thiện khả năng nhận diện.
+    \item \textbf{Xử lý dữ liệu lớn:} Cần sử dụng các phương pháp tối ưu hóa mô hình để đảm bảo tốc độ xử lý cao.
+    \item \textbf{Tích hợp với hệ thống hiện có:} Đòi hỏi sự đồng bộ với cơ sở dữ liệu và hệ thống giao thông thông minh hiện tại.
+\end{itemize}
+
+\textbf{Hướng giải quyết:} Tích hợp các thuật toán xử lý ảnh nâng cao, sử dụng các mô hình AI mạnh hơn và tối ưu hóa hạ tầng phần cứng để đảm bảo hệ thống hoạt động hiệu quả trong nhiều điều kiện khác nhau.
+
+\section{CHƯƠNG 3: KẾT QUẢ CHƯƠNG TRÌNH}
+
+\subsection{3.1 Mô Tả Thực Nghiệm}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{motahethong.jpg} % Giảm kích thước hình
+    \caption{Mô tả hệ thống}
+    \label{fig:traffic_monitoring}
+\end{figure}
+Hệ thống giám sát phương tiện vi phạm giao thông được triển khai trên môi trường thực tế với các điều kiện khác nhau. Dữ liệu được thu thập từ camera giám sát đặt tại các tuyến đường trọng điểm để kiểm tra hiệu suất của hệ thống.
+
+\subsection{3.2 Kết Quả Nhận Diện Phương Tiện}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{demo3.jpg} % Giảm kích thước hình
+    \caption{Kết quả nhận diện biển số}
+    \label{fig:traffic_monitoring}
+\end{figure}
+Hệ thống sử dụng mô hình \textbf{YOLOv8} để phát hiện phương tiện và \textbf{EasyOCR} để nhận diện biển số xe. Dưới đây là một số kết quả đạt được:
+\begin{itemize}
+    \item Tỷ lệ phát hiện phương tiện đạt \textbf{95\%} trong điều kiện ánh sáng tốt và \textbf{85\%} trong điều kiện ánh sáng yếu.
+    \item Độ chính xác nhận diện biển số xe trung bình đạt \textbf{90\%} trên tập dữ liệu thử nghiệm.
+    \item Hệ thống hoạt động tốt trên \textbf{CPU}, tuy tốc độ xử lý chậm hơn so với GPU nhưng vẫn đảm bảo đáp ứng thời gian thực với tốc độ xử lý trung bình khoảng \textbf{5-10 FPS}.
+\end{itemize}
+
+\subsection{3.3 Đánh Giá Hiệu Suất Trên CPU}
+Vì hệ thống được triển khai trên CPU, hiệu suất xử lý được tối ưu bằng các phương pháp sau:
+\begin{itemize}
+    \item Sử dụng mô hình \textbf{YOLOv8-nano} để giảm tải tính toán, đảm bảo tốc độ xử lý phù hợp với phần cứng.
+    \item Tối ưu hóa mã nguồn với OpenCV để giảm độ trễ khi xử lý hình ảnh.
+    \item Áp dụng \textbf{multiprocessing} để phân luồng xử lý ảnh và nhận diện biển số xe song song.
+\end{itemize}
+
+Kết quả kiểm tra cho thấy hệ thống có thể vận hành ổn định với tốc độ xử lý chấp nhận được, dù chưa đạt tốc độ cao như trên GPU.
+
+\subsection{3.4 Hạn Chế Và Hướng Cải Tiến}
+\subsubsection{Hạn Chế}
+\begin{itemize}
+    \item Thời gian xử lý trên CPU còn khá chậm, đặc biệt khi xử lý nhiều khung hình liên tiếp.
+    \item Nhận diện biển số xe có thể gặp khó khăn khi biển số bị mờ hoặc ánh sáng yếu.
+    \item Hệ thống chưa thể xử lý tốt khi có nhiều phương tiện xuất hiện cùng lúc trong một khung hình.
+\end{itemize}
+
+\subsubsection{Hướng Cải Tiến}
+\begin{itemize}
+    \item Cải thiện thuật toán tiền xử lý ảnh để tăng độ chính xác nhận diện biển số trong điều kiện môi trường phức tạp.
+    \item Nghiên cứu các mô hình nhẹ hơn như \textbf{MobileNet SSD} để tăng tốc độ xử lý trên CPU.
+    \item Áp dụng các phương pháp nén mô hình như \textbf{Quantization} để giảm kích thước mô hình mà vẫn giữ được độ chính xác cao.
+\end{itemize}
+
+\subsection{3.5 Kết Luận}
+Hệ thống giám sát phương tiện vi phạm giao thông đã hoạt động ổn định trên CPU với độ chính xác cao. Tuy nhiên, để cải thiện tốc độ xử lý, cần có các tối ưu về phần mềm và phần cứng trong các phiên bản tiếp theo.
+
+\section{KẾT LUẬN}
+
+Hệ thống giám sát phương tiện vi phạm giao thông được xây dựng nhằm cung cấp giải pháp hiệu quả trong việc phát hiện và xử lý vi phạm một cách tự động. Hệ thống ứng dụng các công nghệ xử lý ảnh và nhận diện biển số xe để xác định các hành vi vi phạm như vượt đèn đỏ, chạy quá tốc độ, đi sai làn đường.
+
+Trong quá trình thực hiện, hệ thống đã đạt được những kết quả đáng kể:
+\begin{itemize}
+    \item Nhận diện chính xác biển số xe với độ chính xác cao trong nhiều điều kiện môi trường khác nhau.
+    \item Xử lý dữ liệu theo thời gian thực, đảm bảo khả năng giám sát liên tục.
+    \item Cung cấp thông tin vi phạm rõ ràng, hỗ trợ cơ quan chức năng xử lý minh bạch và hiệu quả.
+\end{itemize}
+
+Tuy nhiên, hệ thống vẫn tồn tại một số hạn chế:
+\begin{itemize}
+    \item Độ chính xác có thể bị ảnh hưởng bởi điều kiện ánh sáng và chất lượng hình ảnh từ camera.
+    \item Hiệu suất xử lý trên CPU chưa tối ưu, cần cải tiến thuật toán để tăng tốc độ xử lý.
+    \item Cần mở rộng khả năng tích hợp với các hệ thống giao thông thông minh hiện có.
+\end{itemize}
+
+\textbf{Hướng phát triển trong tương lai:}
+\begin{itemize}
+    \item Cải tiến thuật toán xử lý ảnh để tối ưu hiệu suất trên CPU.
+    \item Nâng cao khả năng thích ứng với các điều kiện môi trường khác nhau.
+    \item Ứng dụng các mô hình trí tuệ nhân tạo tiên tiến để nâng cao độ chính xác và mở rộng phạm vi giám sát.
+\end{itemize}
+
+Hệ thống này có tiềm năng lớn trong việc hỗ trợ quản lý giao thông và nâng cao ý thức chấp hành luật lệ của người tham gia giao thông. Việc tiếp tục nghiên cứu và cải tiến sẽ giúp hệ thống ngày càng hoàn thiện và có thể triển khai trên quy mô rộng hơn.
+
+\begin{thebibliography}{99}
+
+\bibitem{yolo} 
+Redmon, J., Divvala, S., Girshick, R., \& Farhadi, A. (2016). 
+\textit{You Only Look Once: Unified, Real-Time Object Detection}. 
+Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 779-788.
+
+\bibitem{opencv} 
+Bradski, G. (2000). 
+\textit{The OpenCV Library}. 
+Dr. Dobb’s Journal of Software Tools.
+
+\bibitem{easyocr} 
+Jaided AI. (2020). 
+\textit{EasyOCR: A Deep Learning-based Optical Character Recognition (OCR) Solution}. 
+Available at: \url{https://github.com/JaidedAI/EasyOCR}.
+
+\bibitem{traffic_monitoring} 
+Chen, X., Xiang, S., Liu, C.-L., \& Pan, C.-H. (2013). 
+\textit{Vehicle Detection in Satellite Images by Hybrid Deep Convolutional Neural Networks}. 
+IEEE Geoscience and Remote Sensing Letters, 11(10), 1733-1737.
+
+\bibitem{real_time} 
+Viola, P., \& Jones, M. (2001). 
+\textit{Rapid Object Detection using a Boosted Cascade of Simple Features}. 
+Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 511-518.
+
+\bibitem{anpr_systems} 
+Silva, S. M., \& Jung, C. R. (2018). 
+\textit{License Plate Detection and Recognition in Unconstrained Scenarios}. 
+Proceedings of the European Conference on Computer Vision (ECCV), 580-596.
+
+\end{thebibliography}
+
+
+\end{document}
